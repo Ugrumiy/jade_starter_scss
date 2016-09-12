@@ -2,6 +2,7 @@
 //npm install gulp --save-dev
 //npm install --save-dev browser-sync
 //npm install gulp-less gulp-minify-css gulp-rename gulp-uglify gulp-jade --save-dev
+//npm install gulp-sass gulp-minify-css gulp-rename gulp-uglify gulp-jade --save-dev
 
 // Include gulp
 var gulp = require('gulp');
@@ -10,11 +11,12 @@ var gulp = require('gulp');
 var uglify = require('gulp-uglify'),
     jade = require('gulp-jade'),
     rename = require('gulp-rename'),
-    less = require('gulp-less'),
     minifyCss = require('gulp-minify-css'),
     path = require('path'),
     browserSync = require('browser-sync');
-    reload = browserSync.reload;
+    reload = browserSync.reload,
+    //less = require('gulp-less'),
+    sass = require('gulp-sass');
 
    // Define base folders
 var src = 'src/',
@@ -34,6 +36,14 @@ gulp.task('less', function () {
     .pipe(less())
   	.pipe(rename({suffix: '.min'}))
   	.pipe(minifyCss())
+    .pipe(gulp.dest(dest + '/css'));
+});
+
+gulp.task('sass', function () {
+  return gulp.src([src + 'scss/*.scss', '!' + src + 'scss/inc/*.scss'])
+    .pipe(sass())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(minifyCss())
     .pipe(gulp.dest(dest + '/css'));
 });
 
