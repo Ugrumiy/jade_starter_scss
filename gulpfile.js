@@ -1,8 +1,4 @@
-//npm install gulp -g
-//npm install gulp --save-dev
-//npm install --save-dev browser-sync
-//npm install gulp-less gulp-minify-css gulp-rename gulp-uglify gulp-jade --save-dev
-//npm install gulp-sass gulp-minify-css gulp-rename gulp-uglify gulp-jade --save-dev
+//You should save the package.json file and whenever you need to start working you just do npm install to pull in your node modules.
 
 // Include gulp
 var gulp = require('gulp');
@@ -15,16 +11,20 @@ var uglify = require('gulp-uglify'),
     path = require('path'),
     browserSync = require('browser-sync');
     reload = browserSync.reload,
+    plumber = require('gulp-plumber'),
+    watch = require('gulp-watch'),
+    notify = require('gulp-notify'),
     //less = require('gulp-less'),
     sass = require('gulp-sass');
 
    // Define base folders
 var src = 'src/',
-    dest = 'build/';
+    dest = 'dest/';
 
 // Concatenate & Minify JS
 gulp.task('scripts', function () {
    gulp.src(src +'/js/*.js')
+      .pipe(plumber({ errorHandler: notify.onError("Error: <%= error %>") })) //ловим ошибки
       .pipe(rename({suffix: '.min'}))
       .pipe(uglify())
       .pipe(gulp.dest(dest + '/script'))
@@ -33,6 +33,7 @@ gulp.task('scripts', function () {
 //Compile and minimize less
 gulp.task('less', function () {
   return gulp.src([src + 'less/*.less', '!' + src + 'less/inc/*.less'])
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error %>") })) //ловим ошибки
     .pipe(less())
   	.pipe(rename({suffix: '.min'}))
   	.pipe(minifyCss())
@@ -41,6 +42,7 @@ gulp.task('less', function () {
 
 gulp.task('sass', function () {
   return gulp.src([src + 'scss/*.scss', '!' + src + 'scss/inc/*.scss'])
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error %>") })) //ловим ошибки
     .pipe(sass())
     .pipe(rename({suffix: '.min'}))
     .pipe(minifyCss())
@@ -52,6 +54,7 @@ gulp.task('jade', function() {
   var YOUR_LOCALS = {};
  
   gulp.src([src + 'jade/**/*.jade', '!' + src + 'jade/inc/*.jade'])
+    .pipe(plumber({ errorHandler: notify.onError("Error: <%= error %>") })) //ловим ошибки
     .pipe(jade({
       locals: YOUR_LOCALS
     }))
@@ -73,12 +76,11 @@ gulp.task('browser-sync', function () {
    });
 });
 
-gulp.task('default', ['less', 'jade','scripts', 'browser-sync'], function () {
+gulp.task('watch', function () {
     // Watch .js files
-    gulp.watch(src + 'script/*.js', ['scripts']).on('change', reload);
+    gulp.watch(src + 'script/*.js', ['scripts']);
     // Watch .jade files
-    gulp.watch(src + '*.jade', ['jade']).on('change', reload);
+    gulp.watch(src + 'jade/*.jade', ['jade']);
     // Watch .less files
-    gulp.watch(src + 'less/*.less', ['less']).on('change', reload);
+    gulp.watch(src + 'scss/*.scss', ['sass']);
 });
-

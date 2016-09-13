@@ -1,0 +1,35 @@
+{
+  "name": "KDX",
+  "authors": [
+    "Natalie <fn@kodix.ru>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize.css": "*",
+    "jquery": "2.*"
+  },
+  "devDependencies": {
+    "malihu-custom-scrollbar-plugin": "~3.1.3",
+    "backbone": "~1.2.3",
+    "chosen": "~1.4.2",
+    "jquery-ui": "datepicker-fr#~1.11.4",
+    "jquery.maskedinput": "~1.4.1",
+    "PACE": "pace#~1.0.2",
+    "spin.js": "~2.3.2",
+    "svg4everybody": "~2.0.0",
+    "autoNumeric": "~1.9.43",
+    "typeahead.js": "~0.11.1",
+    "magicsuggest": "^2.1.4"
+  }
+}
